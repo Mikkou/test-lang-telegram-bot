@@ -1,56 +1,74 @@
 require('dotenv').config()
 
-// Подключаем библиотеку для работы с Telegram API в переменную
-var TelegramBot = require('node-telegram-bot-api')
+let TelegramBot = require('node-telegram-bot-api')
+const words = require('./words')
 
-// Устанавливаем токен, который выдавал нам бот
-var token = process.env.TOKEN
-// Включить опрос сервера. Бот должен обращаться к серверу Telegram, чтобы получать актуальную информацию
-// Подробнее: https://core.telegram.org/bots/api#getupdates
-var bot = new TelegramBot(token, { polling: true })
+let token = process.env.TOKEN
+let bot = new TelegramBot(token, { polling: true })
 
-// Написать мне ... (/echo Hello World! - пришлет сообщение с этим приветствием, то есть "Hello World!")
-bot.onText(/\/echo (.+)/, function (msg, match) {
-  var fromId = msg.from.id // Получаем ID отправителя
-  var resp = match[1] // Получаем текст после /echo
-  bot.sendMessage(fromId, resp)
+let loopId = null
+let isAnswered = true
+let isInited = false
+let isNotificated = false
+let lastWord = null
+
+function getRandom (min, max) {
+  min = Math.ceil(min)
+  max = Math.floor(max)
+  return Math.floor(Math.random() * (max - min + 1)) + min
+}
+
+bot.onText(/\/start/, function (msg) {
+  let fromId = msg.from.id
+  bot.sendMessage(fromId, 'Приветик(:. Если хотите начать изучать слова, введите команду /begin.')
 })
 
-// Простая команда без параметров
-bot.on('message', function (msg) {
-  var chatId = msg.chat.id // Берем ID чата (не отправителя)
-  // Фотография может быть: путь к файлу, поток (stream) или параметр file_id
-  var photo = '123.jpg' // в папке с ботом должен быть файл "cats.png"
-  bot.sendPhoto(chatId, photo, { caption: 'Милые котята' })
+bot.onText(/\/begin/, function (msg) {
+  isInited = true
+  let fromId = msg.from.id
+  loopId = setInterval(() => {
+
+    if (isAnswered) {
+      lastWord = words[getRandom(0, words.length - 1)].ru
+      bot.sendMessage(fromId, lastWord).catch(function (error) {
+        if (error.response && error.response.statusCode === 403) {
+          clearInterval(loopId)
+          console.log('status 403')
+        }
+      })
+      isAnswered = false
+      isNotificated = false
+    } else {
+      if (isNotificated) return
+      bot.sendMessage(fromId, 'Пожалуйста, дайте ответ.').catch(function (error) {
+        if (error.response && error.response.statusCode === 403) {
+          clearInterval(loopId)
+          console.log('status 403')
+        }
+      })
+      isNotificated = true
+    }
+
+
+  }, 3000)
 })
 
+bot.on('message', e => {
+  if (isInited) {
 
-// var TelegramBot = require('node-telegram-bot-api')
-//
-// var token = process.env.TOKEN
-// var bot = new TelegramBot(token, { polling: true })
-//
-// var notes = []
-//
-// bot.onText(/напомни (.+) в (.+)/, function (msg, match) {
-//   var userId = msg.from.id
-//   var text = match[1]
-//   var time = match[2]
-//
-//   notes.push({ 'uid': userId, 'time': time, 'text': text })
-//
-//   bot.sendMessage(userId, 'Отлично! Я обязательно напомню, если не сдохну :)')
-// })
-//
-// setInterval(function () {
-//   for (var i = 0; i < notes.length; i++) {
-//     const curDate = new Date().getHours() + ':' + new Date().getMinutes()
-//     if (notes[i]['time'] === curDate) {
-//       bot.sendMessage(notes[i]['uid'], 'Напоминаю, что вы должны: ' + notes[i]['text'] + ' сейчас.')
-//       notes.splice(i, 1)
-//     }
-//   }
-// }, 1000)
+    let enWord = null
+    for (const word of words) {
+      if (word.ru === lastWord) {
+        enWord = word.en
+      }
+    }
 
-
-
+    if (enWord && enWord === e.text.toLowerCase()) {
+      bot.sendMessage(e.from.id, 'Ответ верный!')
+      isAnswered = true
+    } else {
+      bot.sendMessage(e.from.id, 'Ответ неверный!')
+      isNotificated = false
+    }
+  }
+})
