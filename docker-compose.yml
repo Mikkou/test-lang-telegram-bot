@@ -1,0 +1,19 @@
+version: "3.5"
+services:
+  bot:
+    build: ./bot/
+    container_name: bot
+    restart: always
+    command:
+      "node server.js"
+    expose:
+      - 8080
+    depends_on:
+      - mongo
+  mongo:
+    image: mongo:latest
+    volumes:
+      - ./data/db:/data/db:z
+    container_name: mongodb
+    ports:
+      - "27017:27017"
