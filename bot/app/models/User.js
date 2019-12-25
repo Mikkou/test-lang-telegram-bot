@@ -9,7 +9,8 @@ const UserSchema = new Schema(
     last_name: { type: String, required: true, trim: true },
     username: { type: String, required: true, trim: true },
     language_code: { type: String, required: true, trim: true },
-    added_date: { type: Date, default: Date.now }
+    last_word_id: { type: String, trim: true, default: null, lowercase: true },
+    createdAt: { type: Date, default: Date.now }
   },
   {
     versionKey: false

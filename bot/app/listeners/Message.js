@@ -1,24 +1,21 @@
 const Base = require('../Base')
-const store = require('../store')
+const UserModel = require('../models/User')
+const WordModel = require('../models/Word')
+const UserHelper = require('../helpers/User')
 
 module.exports = class Message extends Base {
-  static init (e) {
-    if (store.isInited) {
-
-      let enWord = null
-      for (const word of store.words) {
-        if (word.ru === store.lastWord) {
-          enWord = word.en
-        }
-      }
-
-      if (enWord && enWord === e.text.toLowerCase()) {
-        super.bot.sendMessage(e.from.id, 'Ответ верный!')
-        store.isAnswered = true
+  static async init ({ text, from: { id: telegramUserID } }) {
+    const user = await UserModel.findOne({ id: telegramUserID })
+    if (user && user.last_word_id) {
+      const { en } = await WordModel.findById(user.last_word_id)
+      if (en === text.toLowerCase()) {
+        await super.bot.sendMessage(telegramUserID, 'Ответ верный!')
+        await UserHelper.sendNewWord(telegramUserID)
       } else {
-        super.bot.sendMessage(e.from.id, 'Ответ неверный!')
-        store.isNotificated = false
+        super.bot.sendMessage(telegramUserID, 'Ответ неверный!')
       }
+    } else {
+      throw new Error(`User doesn't exist with id ${telegramUserID}`)
     }
   }
 }
