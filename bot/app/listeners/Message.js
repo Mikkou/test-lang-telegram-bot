@@ -14,8 +14,6 @@ module.exports = class Message extends Base {
       } else {
         super.bot.sendMessage(telegramUserID, 'Ответ неверный!')
       }
-    } else {
-      throw new Error(`User doesn't exist with id ${telegramUserID}`)
     }
   }
 }
