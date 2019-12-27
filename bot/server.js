@@ -1,2 +1,2 @@
-const App = require('./app/App')
+import App from './app/App.js'
 App.initListeners()

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+import mongoose from 'mongoose'
 const Schema = mongoose.Schema
 
 const WordSchema = new Schema(
@@ -15,4 +15,4 @@ WordSchema.pre('save', function (next) {
   next()
 })
 
-module.exports = mongoose.model('words', WordSchema)
+export default mongoose.model('words', WordSchema)

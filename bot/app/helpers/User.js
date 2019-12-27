@@ -1,8 +1,8 @@
-const Base = require('../Base')
-const UserModel = require('../models/User')
-const WordModel = require('../models/Word')
+import Base from '../Base.js'
+import UserModel from '../models/User.js'
+import WordModel from '../models/Word.js'
 
-module.exports = class User extends Base {
+export default class User extends Base {
   static async sendNewWord (telegramUserID) {
     const words = await WordModel.find({})
     const wordRu = words[User.getRandom(0, words.length - 1)].ru

@@ -1,9 +1,9 @@
-const Base = require('./Base')
-const TextStart = require('./listeners/TextStart')
-const TextBegin = require('./listeners/TextBegin')
-const Message = require('./listeners/Message')
+import Base from './Base.js'
+import TextStart from './listeners/TextStart.js'
+import TextBegin from './listeners/TextBegin.js'
+import Message from './listeners/Message.js'
 
-module.exports = class App extends Base {
+export default class App extends Base {
   static initListeners () {
     super.bot.onText(/\/start/, TextStart.init)
     super.bot.onText(/\/begin/,  TextBegin.init)

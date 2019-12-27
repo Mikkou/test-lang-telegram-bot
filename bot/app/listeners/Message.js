@@ -1,9 +1,9 @@
-const Base = require('../Base')
-const UserModel = require('../models/User')
-const WordModel = require('../models/Word')
-const UserHelper = require('../helpers/User')
+import Base from '../Base.js'
+import UserModel from '../models/User.js'
+import WordModel from '../models/Word.js'
+import UserHelper from '../helpers/User.js'
 
-module.exports = class Message extends Base {
+export default class Message extends Base {
   static async init ({ text, from: { id: telegramUserID } }) {
     const user = await UserModel.findOne({ id: telegramUserID })
     if (user && user.last_word_id) {
