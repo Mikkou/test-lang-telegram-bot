@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/botusers",
+      "handler": "Botusers.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/botusers/count",
+      "handler": "Botusers.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/botusers/:id",
+      "handler": "Botusers.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/botusers",
+      "handler": "Botusers.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/botusers/:id",
+      "handler": "Botusers.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/botusers/:id",
+      "handler": "Botusers.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

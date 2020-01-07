@@ -5,14 +5,14 @@ import UserHelper from '../helpers/User.js'
 
 export default class Message extends Base {
   static async init ({ text, from: { id: telegramUserID } }) {
-    const user = await UserModel.findOne({ id: telegramUserID })
+    const user = await UserModel.findOne({ user_id: telegramUserID })
     if (user && user.last_word_id) {
       const { en } = await WordModel.findById(user.last_word_id)
       if (en === text.toLowerCase()) {
-        await super.bot.sendMessage(telegramUserID, 'Ответ верный!')
+        await super.bot.sendMessage(telegramUserID, '✌')
         await UserHelper.sendNewWord(telegramUserID)
       } else {
-        super.bot.sendMessage(telegramUserID, 'Ответ неверный!')
+        super.bot.sendMessage(telegramUserID, '❌')
       }
     }
   }

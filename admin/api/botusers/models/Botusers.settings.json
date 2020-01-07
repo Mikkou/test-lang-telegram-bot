@@ -1,0 +1,46 @@
+{
+  "connection": "default",
+  "collectionName": "tlg_users",
+  "info": {
+    "name": "botusers",
+    "description": ""
+  },
+  "options": {
+    "timestamps": [
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  "attributes": {
+    "last_word_id": {
+      "default": "",
+      "type": "string"
+    },
+    "user_id": {
+      "type": "integer",
+      "default": "",
+      "required": true,
+      "unique": true
+    },
+    "is_bot": {
+      "required": true,
+      "type": "boolean"
+    },
+    "first_name": {
+      "type": "string"
+    },
+    "last_name": {
+      "type": "string"
+    },
+    "user_name": {
+      "type": "string",
+      "unique": true
+    },
+    "language_code": {
+      "maxLength": 4,
+      "required": true,
+      "minLength": 2,
+      "type": "string"
+    }
+  }
+}

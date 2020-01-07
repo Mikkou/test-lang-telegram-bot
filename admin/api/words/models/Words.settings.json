@@ -1,0 +1,19 @@
+{
+  "connection": "default",
+  "collectionName": "words",
+  "info": {
+    "name": "words",
+    "description": ""
+  },
+  "options": {
+    "timestamps": true
+  },
+  "attributes": {
+    "ru": {
+      "type": "string"
+    },
+    "en": {
+      "type": "string"
+    }
+  }
+}

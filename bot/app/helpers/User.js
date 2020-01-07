@@ -7,7 +7,7 @@ export default class User extends Base {
     const words = await WordModel.find({})
     const wordRu = words[User.getRandom(0, words.length - 1)].ru
     const { _id: wordId } = await WordModel.findOne({ ru: wordRu })
-    const user = await UserModel.findOne({ id: telegramUserID })
+    const user = await UserModel.findOne({ user_id: telegramUserID })
     await super.bot.sendMessage(telegramUserID, wordRu).catch(error => {
       if (error.response && error.response.statusCode === 403) {
         console.log('status 403')

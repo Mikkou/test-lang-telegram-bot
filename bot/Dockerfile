@@ -1,9 +1,13 @@
 FROM node:12
 
-ENV APP_ROOT /src
+RUN mkdir /usr/src/cache
+WORKDIR /usr/src/cache
 
-RUN mkdir ${APP_ROOT}
-WORKDIR ${APP_ROOT}
-ADD . ${APP_ROOT}
-
+COPY package.json ./
+COPY package-lock.json ./
 RUN npm ci
+
+RUN mkdir /usr/src/app
+WORKDIR /usr/src/app
+
+ENTRYPOINT ["sh", "./entrypoint.sh"]
