@@ -8,10 +8,20 @@ export default class User extends Base {
     const wordRu = words[User.getRandom(0, words.length - 1)].ru
     const { _id: wordId } = await WordModel.findOne({ ru: wordRu })
     const user = await UserModel.findOne({ user_id: telegramUserID })
-    await super.bot.sendMessage(telegramUserID, wordRu).catch(error => {
-      if (error.response && error.response.statusCode === 403) {
-        console.log('status 403')
-      }
+
+    const options = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: [
+          [{ text: 'Info', callback_data: 'getWordInfo' }]
+        ]
+      })
+    }
+
+    await super.bot.sendMessage(telegramUserID, wordRu, options)
+      .catch(error => {
+        if (error.response && error.response.statusCode === 403) {
+          console.log('status 403')
+        }
     })
     await UserModel.findByIdAndUpdate(user._id, { last_word_id: wordId })
   }
