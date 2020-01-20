@@ -1,4 +1,4 @@
-# wakaiyama-ecosystem
+# wakaiyama
 This is node.js system for telegram bot, which help people to learn english.
 
 You can try: @wakaiyama_bot
