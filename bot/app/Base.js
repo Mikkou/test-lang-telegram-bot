@@ -1,9 +1,9 @@
 import dotenv from 'dotenv'
-import TelegramBot from 'node-telegram-bot-api'
+import Telegraf from 'telegraf'
 import mongoose from 'mongoose'
 dotenv.config()
 
-const bot = new TelegramBot(process.env.TOKEN, { polling: true })
+const bot = new Telegraf(process.env.TOKEN)
 
 const options = {
   server: { socketOptions: { keepAlive: 1, connectTimeoutMS: 30000 } },

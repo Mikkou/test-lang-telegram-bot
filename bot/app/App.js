@@ -6,9 +6,10 @@ import CallbackQuery from './listeners/CallbackQuery.js'
 
 export default class App extends Base {
   static initListeners () {
-    super.bot.onText(/\/start/, TextStart.init)
-    super.bot.onText(/\/begin/,  TextBegin.init)
+    super.bot.start(TextStart.init)
+    super.bot.hears('/begin',  TextBegin.init)
     super.bot.on('callback_query', CallbackQuery.init)
-    super.bot.on('message', Message.init)
+    super.bot.on('text', Message.init)
+    super.bot.launch()
   }
 }
