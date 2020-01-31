@@ -9,8 +9,8 @@ export default class CallbackQuery extends Base {
 
   static async getWordInfo (ctx) {
     const telegramUserID = ctx.update.callback_query.from.id
-    const { last_word_id } = await UserModel.findOne({ user_id: telegramUserID })
-    const { en, ru } = await WordModel.findById(last_word_id)
+    const { study: { element_hash } } = await UserModel.findOne({ user_id: telegramUserID })
+    const { en, ru } = await WordModel.findById(element_hash)
     ctx.reply(`${ru} - ${en}`)
   }
 }

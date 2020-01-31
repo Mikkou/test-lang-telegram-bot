@@ -1,5 +1,12 @@
 import mongoose from 'mongoose'
+
 const Schema = mongoose.Schema
+
+const StudySchema = new Schema({
+  lang: { type: String },
+  topic: { type: String },
+  element_hash: { type: String }
+}, { _id: false })
 
 const UserSchema = new Schema(
   {
@@ -9,8 +16,11 @@ const UserSchema = new Schema(
     last_name: { type: String, default: null, trim: true },
     user_name: { type: String, default: null, trim: true },
     language_code: { type: String, required: true, trim: true },
-    last_word_id: { type: String, trim: true, default: null, lowercase: true },
+    study: { type: StudySchema, default: {} },
     createdAt: { type: Date, default: Date.now }
+  },
+  {
+    versionKey: false
   }
 )
 

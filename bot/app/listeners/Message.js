@@ -9,11 +9,11 @@ export default class Message extends Base {
     const isCommand = text.indexOf('/') === 0
     if (isCommand) return
     const user = await UserModel.findOne({ user_id: telegramUserID })
-    if (user && user.last_word_id) {
-      const { en } = await WordModel.findById(user.last_word_id)
+    if (user && user.study.element_hash) {
+      const { en } = await WordModel.findById(user.study.element_hash)
       if (en === text.toLowerCase()) {
         await ctx.reply('✌')
-        await UserHelper.sendNewWord(ctx)
+        await UserHelper.sendNewWord(telegramUserID, ctx)
       } else {
         ctx.reply('❌')
       }

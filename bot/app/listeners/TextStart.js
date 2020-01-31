@@ -7,7 +7,7 @@ export default class TextStart extends Base {
     const user = await UserModel.findOne({ user_id: ctx.update.message.from.id })
     if (user) {
       await Object.assign(user, ctx.update.message.from).save().catch(err => res.send(err))
-      ctx.reply('С возвращением! Для старта обучения выполните команду /begin.')
+      ctx.reply('С возвращением! Откройте /menu')
     } else {
       const newUser = new UserModel({
         user_id: ctx.update.message.from.id,
@@ -18,7 +18,7 @@ export default class TextStart extends Base {
         language_code: ctx.update.message.from.language_code
       })
       await newUser.save().catch(err => console.log(err))
-      ctx.reply('Приветик(:. Если хотите начать изучать слова, введите команду /begin.')
+      ctx.reply('Добро пожаловать! Откройте /menu')
     }
   }
 }

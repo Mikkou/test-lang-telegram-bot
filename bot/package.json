@@ -9,7 +9,8 @@
     "dotenv": "^8.2.0",
     "mongoose": "^5.8.3",
     "nodemon": "^2.0.2",
-    "telegraf": "^3.35.0"
+    "telegraf": "^3.35.0",
+    "telegraf-inline-menu": "^4.0.0"
   },
   "devDependencies": {},
   "scripts": {
