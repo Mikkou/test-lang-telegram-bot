@@ -5,6 +5,7 @@ const Schema = mongoose.Schema
 const StudySchema = new Schema({
   lang: { type: String },
   topic: { type: String },
+  level: { type: String },
   element_hash: { type: String }
 }, { _id: false })
 

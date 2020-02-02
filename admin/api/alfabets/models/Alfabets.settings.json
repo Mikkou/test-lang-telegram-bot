@@ -1,0 +1,25 @@
+{
+  "connection": "default",
+  "collectionName": "alfabets",
+  "info": {
+    "name": "alfabets",
+    "description": "japanese alfabet"
+  },
+  "options": {
+    "timestamps": [
+      "createdAt",
+      "updatedAt"
+    ]
+  },
+  "attributes": {
+    "latin": {
+      "unique": true,
+      "required": true,
+      "type": "string"
+    },
+    "katakana": {
+      "unique": true,
+      "type": "string"
+    }
+  }
+}

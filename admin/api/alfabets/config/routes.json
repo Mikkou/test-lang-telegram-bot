@@ -1,0 +1,52 @@
+{
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/alfabets",
+      "handler": "Alfabets.find",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alfabets/count",
+      "handler": "Alfabets.count",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/alfabets/:id",
+      "handler": "Alfabets.findOne",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "POST",
+      "path": "/alfabets",
+      "handler": "Alfabets.create",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "PUT",
+      "path": "/alfabets/:id",
+      "handler": "Alfabets.update",
+      "config": {
+        "policies": []
+      }
+    },
+    {
+      "method": "DELETE",
+      "path": "/alfabets/:id",
+      "handler": "Alfabets.delete",
+      "config": {
+        "policies": []
+      }
+    }
+  ]
+}

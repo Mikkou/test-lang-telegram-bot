@@ -12,10 +12,6 @@
     ]
   },
   "attributes": {
-    "last_word_id": {
-      "default": "",
-      "type": "string"
-    },
     "user_id": {
       "type": "integer",
       "default": "",
@@ -41,6 +37,9 @@
       "required": true,
       "minLength": 2,
       "type": "string"
+    },
+    "study": {
+      "type": "json"
     }
   }
 }
