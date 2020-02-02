@@ -1,5 +1,5 @@
 # wakaiyama
-This is node.js system for telegram bot, which help people to learn english.
+This is node.js system for telegram bot, which help people to learn english and japanese.
 
 You can try: @wakaiyama_bot
 
