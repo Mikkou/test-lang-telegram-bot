@@ -12,7 +12,7 @@ export default class App extends Base {
   }
 
   static initModules () {
-    super.bot.use(Menu.init({
+    super.bot.use(Menu.inlineMenu.init({
       mainMenuButtonText: 'Назад'
     }))
   }

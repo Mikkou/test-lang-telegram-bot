@@ -20,6 +20,10 @@
     "katakana": {
       "unique": true,
       "type": "string"
+    },
+    "hiragana": {
+      "unique": true,
+      "type": "string"
     }
   }
 }

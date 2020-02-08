@@ -3,65 +3,69 @@ import langs from '../../langs.js'
 import UserHelper from '../helpers/User.js'
 import AlfabetJPWorker from '../topics/jp/AlfabetWorker.js'
 
-const langMenu = new TelegrafInlineMenu('Выберите язык для изучения:')
+export class Menu {
 
-// this is for guide
-// langMenu.urlButton('Инструкция', 'https://edjopato.de')
+  static get inlineMenu () {
+    const langMenu = new TelegrafInlineMenu('Выберите язык для изучения:')
 
-for (const lang of langs) {
-  const topicsMenu = new TelegrafInlineMenu('Выберите тему:')
+    // this is for guide
+    // langMenu.urlButton('Инструкция', 'https://edjopato.de')
 
-  langMenu.submenu(lang.name, `selected_lang_${lang.key}`, topicsMenu)
+    for (const lang of langs) {
+      const topicsMenu = new TelegrafInlineMenu('Выберите тему:')
 
-  for (const topic of lang.topics) {
+      langMenu.submenu(lang.name, `selected_lang_${lang.key}`, topicsMenu)
 
-    if (topic.levels && topic.levels.length > 0) {
+      for (const topic of lang.topics) {
 
-      const levelsMenu = new TelegrafInlineMenu('Выберите уровень сложности:')
-      topicsMenu.submenu(topic.name, `selected_topic_${topic.key}`, levelsMenu)
+        if (topic.levels && topic.levels.length > 0) {
 
-      for (const level of topic.levels) {
+          const levelsMenu = new TelegrafInlineMenu('Выберите уровень сложности:')
+          topicsMenu.submenu(topic.name, `selected_topic_${topic.key}`, levelsMenu)
 
-        levelsMenu.button(level.name, `selected_level_${level.key}`, {
-          doFunc: async ctx => {
-            const tlgUserId = ctx.update.callback_query.from.id
-            const user = await UserHelper.getUserByTlgID(tlgUserId)
-            console.log(`selected_level_${level.key}`)
-            await UserHelper.saveProperties(user._id, {
-              study: {
-                lang: lang.key,
-                topic: topic.key,
-                level: level.key
+          for (const level of topic.levels) {
+
+            levelsMenu.button(level.name, `selected_level_${level.key}`, {
+              doFunc: async ctx => {
+                const tlgUserId = ctx.update.callback_query.from.id
+                const user = await UserHelper.getUserByTlgID(tlgUserId)
+                await UserHelper.saveProperties(user._id, {
+                  study: {
+                    lang: lang.key,
+                    topic: topic.key,
+                    level: level.key
+                  }
+                })
+                const alfJPObj = new AlfabetJPWorker(topic.key)
+                await alfJPObj.sendNewElement(tlgUserId, ctx)
               }
             })
-            const alphJPObj = new AlfabetJPWorker(topic.key)
-            await alphJPObj.sendNewElement(tlgUserId, ctx)
+
           }
-        })
 
-      }
+        } else {
 
-    } else {
-
-      topicsMenu.button(topic.name, `choose_topic_${topic.key}`, {
-        doFunc: async ctx => {
-          const tlgUserId = ctx.update.callback_query.from.id
-          const user = await UserHelper.getUserByTlgID(tlgUserId)
-          await UserHelper.saveProperties(user._id, {
-            study: {
-              lang: lang.key,
-              topic: topic.key
+          topicsMenu.button(topic.name, `choose_topic_${topic.key}`, {
+            doFunc: async ctx => {
+              const tlgUserId = ctx.update.callback_query.from.id
+              const user = await UserHelper.getUserByTlgID(tlgUserId)
+              await UserHelper.saveProperties(user._id, {
+                study: {
+                  lang: lang.key,
+                  topic: topic.key
+                }
+              })
+              await UserHelper.sendNewWord(tlgUserId, ctx)
             }
           })
-          await UserHelper.sendNewWord(tlgUserId, ctx)
+
         }
-      })
+      }
 
     }
+
+    langMenu.setCommand('menu')
+
+    return langMenu
   }
-
 }
-
-langMenu.setCommand('menu')
-
-export const Menu = langMenu

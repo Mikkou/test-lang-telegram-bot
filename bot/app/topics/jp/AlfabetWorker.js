@@ -10,19 +10,17 @@ export default class AlfabetWorker {
   }
 
   async sendNewElement (telegramUserID, ctx) {
-    const items = await AlfabetModel.find({})
-    const item = items[User.getRandom(0, items.length - 1)][this.TYPE]
-    const { _id: itemHash } = await AlfabetModel.findOne({ [this.TYPE]: item })
+    const [{ [this.TYPE]: character, _id: characterHash }] = await AlfabetModel.aggregate([{ $sample: { size: 1 } }])
     const { _id, study: { lang, topic, level = '' } } = await User.getUserByTlgID(telegramUserID)
 
-    await ctx.reply(item)
+    await ctx.reply(character)
       .catch(error => {
         if (error.response && error.response.statusCode === 403) {
           console.log('status 403')
         }
       })
     await UserModel.findByIdAndUpdate(_id, {
-      study: { lang, topic, level, element_hash: itemHash }
+      study: { lang, topic, level, element_hash: characterHash }
     })
   }
 }

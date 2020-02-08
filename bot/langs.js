@@ -22,6 +22,16 @@ export default [
             key: 'easy'
           }
         ]
+      },
+      {
+        name: 'Хирагана',
+        key: 'hiragana',
+        levels: [
+          {
+            name: 'Легкий',
+            key: 'easy'
+          }
+        ]
       }
     ]
   }
