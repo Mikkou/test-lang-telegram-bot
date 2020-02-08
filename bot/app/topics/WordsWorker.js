@@ -46,7 +46,15 @@ export default class WordsWorker {
 
     const { _id, study: { lang, topic, level = '' } } = await await UserModel.findOne({ user_id: telegramUserID })
 
-    await ctx.reply(character)
+    const options = {
+      reply_markup: JSON.stringify({
+        inline_keyboard: [
+          [{ text: 'Info', callback_data: `get${lang.toUpperCase()}WordInfo` }]
+        ]
+      })
+    }
+
+    await ctx.reply(character, options)
       .catch(error => {
         if (error.response && error.response.statusCode === 403) {
           console.log('status 403')
