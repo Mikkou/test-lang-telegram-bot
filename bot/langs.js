@@ -32,6 +32,10 @@ export default [
             key: 'easy'
           }
         ]
+      },
+      {
+        name: 'Слова',
+        key: 'words'
       }
     ]
   }

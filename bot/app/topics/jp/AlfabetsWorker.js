@@ -1,8 +1,8 @@
-import AlfabetModel from '../../models/jp/Alfabet.js'
+import AlfabetsModel from '../../models/jp/Alfabet.js'
 import UserModel from '../../models/User.js'
 import User from '../../helpers/User.js'
 
-export default class AlfabetWorker {
+export default class AlfabetsWorker {
   TYPE = null
 
   constructor (type) {
@@ -10,7 +10,7 @@ export default class AlfabetWorker {
   }
 
   async sendNewElement (telegramUserID, ctx) {
-    const [{ [this.TYPE]: character, _id: characterHash }] = await AlfabetModel.aggregate([{ $sample: { size: 1 } }])
+    const [{ [this.TYPE]: character, _id: characterHash }] = await AlfabetsModel.aggregate([{ $sample: { size: 1 } }])
     const { _id, study: { lang, topic, level = '' } } = await User.getUserByTlgID(telegramUserID)
 
     await ctx.reply(character)

@@ -6,13 +6,25 @@
     "description": ""
   },
   "options": {
-    "timestamps": true
+    "timestamps": [
+      "createdAt",
+      "updatedAt"
+    ]
   },
   "attributes": {
     "ru": {
       "type": "string"
     },
     "en": {
+      "type": "string"
+    },
+    "jp_hiragana": {
+      "type": "string"
+    },
+    "jp_katakana": {
+      "type": "string"
+    },
+    "jp_kanji": {
       "type": "string"
     }
   }

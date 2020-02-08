@@ -1,7 +1,8 @@
 import TelegrafInlineMenu from 'telegraf-inline-menu'
 import langs from '../../langs.js'
+import WordsTopic from '../topics/WordsWorker.js'
+import AlfabetsJPWorker from '../topics/jp/AlfabetsWorker.js'
 import UserHelper from '../helpers/User.js'
-import AlfabetJPWorker from '../topics/jp/AlfabetWorker.js'
 
 export class Menu {
 
@@ -36,7 +37,7 @@ export class Menu {
                     level: level.key
                   }
                 })
-                const alfJPObj = new AlfabetJPWorker(topic.key)
+                const alfJPObj = new AlfabetsJPWorker(topic.key)
                 await alfJPObj.sendNewElement(tlgUserId, ctx)
               }
             })
@@ -55,7 +56,8 @@ export class Menu {
                   topic: topic.key
                 }
               })
-              await UserHelper.sendNewWord(tlgUserId, ctx)
+              const obj = new WordsTopic(lang.key)
+              await obj.sendNewWord(tlgUserId, ctx)
             }
           })
 
