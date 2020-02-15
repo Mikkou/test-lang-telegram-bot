@@ -1,4 +1,4 @@
-# wakaiyama
+# Test lang telegram bot
 This is node.js system for telegram bot, which help people to learn english and japanese.
 
 You can try: https://t.me/wakaiyama_bot
@@ -11,11 +11,11 @@ You can try: https://t.me/wakaiyama_bot
 ## Quick start
 
 ```
-git clone git@github.com:Mikkou/wakaiyama.git
+git clone git@github.com:Mikkou/test-lang-telegram-bot.git
 ```
 
 ```
-cd wakaiyama
+cd test-lang-telegram-bot
 ```
 create .env file and put in your telegram bot token
 ```
