@@ -1,7 +1,7 @@
 # wakaiyama
 This is node.js system for telegram bot, which help people to learn english and japanese.
 
-You can try: @wakaiyama_bot
+You can try: https://t.me/wakaiyama_bot
 
 ## Tech stack
 - strapi (admin panel)
