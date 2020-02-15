@@ -17,6 +17,7 @@ const UserSchema = new Schema(
     last_name: { type: String, default: null, trim: true },
     user_name: { type: String, default: null, trim: true },
     language_code: { type: String, required: true, trim: true },
+    selected_lang: { type: String, default: 'en', trim: true },
     study: { type: StudySchema, default: {} },
     createdAt: { type: Date, default: Date.now }
   },

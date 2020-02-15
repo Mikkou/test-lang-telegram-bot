@@ -1,6 +1,10 @@
-export const langs = ['ru', 'en']
+export const LANGS = {
+  ru: 'Русский',
+  en: 'English',
+  jp: '日本語'
+}
 
-export const getLang = lang => langs.includes(lang) ? lang : 'en'
+export const getLang = lang => Object.keys(LANGS).includes(lang) ? lang : 'en'
 
 export const words = {
   en: {
@@ -20,9 +24,7 @@ export const words = {
     },
     levels: {
       easy: 'Easy'
-    },
-    welcomeBack: 'Welcome back! Open /menu',
-    welcome: 'Welcome! Open /menu'
+    }
   },
   ru: {
     menu: {
@@ -41,8 +43,25 @@ export const words = {
     },
     levels: {
       easy: 'Лёгкий'
+    }
+  },
+  jp: {
+    menu: {
+      en: '英語',
+      jp: '日本語',
+      title: {
+        firstLevel: '学習する言語を選択してください：',
+        secondLevel: 'トピックを選択してください:',
+        thirstLevel: '難易度を選択してください:',
+      }
     },
-    welcomeBack: 'С возвращением! Откройте /menu',
-    welcome: 'Добро пожаловать! Откройте /menu'
+    topics: {
+      words: '言葉',
+      katakana: 'カタカナ',
+      hiragana: 'ひらがな'
+    },
+    levels: {
+      easy: 'かんたん'
+    }
   }
 }

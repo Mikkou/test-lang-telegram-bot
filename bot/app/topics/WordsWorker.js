@@ -2,47 +2,37 @@ import WordsModel from '../models/Word.js'
 import UserModel from '../models/User.js'
 
 export default class WordsWorker {
-  LANG = null
+  STUDY_LANG = null
 
   constructor (lang) {
-    this.LANG = lang
+    this.STUDY_LANG = lang
   }
 
-  async sendNewWord (telegramUserID, ctx) {
+  async sendNewWord (telegramUserID, selectedLang, ctx) {
 
-    let items
+    const items = await WordsModel.aggregate([
+      {
+        $match: {
+          ...WordsWorker.getAggregateMatch(this.STUDY_LANG),
+          ...WordsWorker.getAggregateMatch(selectedLang)
+        }
+      },
+      { $sample: { size: 1 } },
+    ])
 
-    switch (this.LANG) {
-      case 'en':
-        items = await WordsModel.aggregate([
-          {
-            $match: {
-              en: {
-                '$not': /^$/
-              }
-            }
-          },
-          { $sample: { size: 1 } },
-        ])
-        break
-      case 'jp':
-        items = await WordsModel.aggregate([
-          {
-            $match: {
-              $or: [{ jp_hiragana: { $exists: true, '$not': /^$/ } }, {
-                jp_katakana: {
-                  $exists: true,
-                  '$not': /^$/
-                }
-              }, { jp_kanji: { $exists: true, '$not': /^$/ } }]
-            }
-          },
-          { $sample: { size: 1 } },
-        ])
-        break
+    const [item] = items
+
+    let neededCharacterKey = selectedLang
+
+    if (neededCharacterKey === 'jp') {
+      neededCharacterKey = item.jp_kanji
+          ? 'jp_kanji'
+          : item.jp_hiragana
+            ? 'jp_hiragana'
+            : 'jp_katakana'
     }
 
-    const [{ ru: character, _id: characterHash }] = items
+    const { [neededCharacterKey]: characterForSending, _id: characterHash } = items[0]
 
     const { _id, study: { lang, topic, level = '' } } = await await UserModel.findOne({ user_id: telegramUserID })
 
@@ -54,7 +44,7 @@ export default class WordsWorker {
       })
     }
 
-    await ctx.reply(character, options)
+    await ctx.reply(characterForSending, options)
       .catch(error => {
         if (error.response && error.response.statusCode === 403) {
           console.log('status 403')
@@ -63,5 +53,25 @@ export default class WordsWorker {
     await UserModel.findByIdAndUpdate(_id, {
       study: { lang, topic, level, element_hash: characterHash }
     })
+  }
+
+  static getAggregateMatch (lang) {
+
+    if (lang === 'en' || lang === 'ru') {
+      return {
+        $and: [
+          { [lang]: { $exists: true, '$not': /^$/ } }
+        ]
+      }
+    } else if (lang === 'jp') {
+      return {
+        $or: [
+          { jp_hiragana: { $exists: true, '$not': /^$/ } },
+          { jp_katakana: { $exists: true, '$not': /^$/ } },
+          { jp_kanji: { $exists: true, '$not': /^$/ } }
+        ]
+      }
+    }
+
   }
 }

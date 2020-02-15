@@ -1,5 +1,4 @@
 import Base from './Base.js'
-import TextStart from './listeners/TextStart.js'
 import Message from './listeners/Message.js'
 import CallbackQuery from './listeners/CallbackQuery.js'
 import { Menu } from './modules/Menu.js'
@@ -15,10 +14,10 @@ export default class App extends Base {
     super.bot.use(Menu.inlineMenu.init({
       mainMenuButtonText: '←'
     }))
+    super.bot.use(Menu.choiceYourLang.init())
   }
 
   static initListeners () {
-    super.bot.start(TextStart.init)
     super.bot.on('callback_query', CallbackQuery.init)
     super.bot.on('text', Message.init)
   }

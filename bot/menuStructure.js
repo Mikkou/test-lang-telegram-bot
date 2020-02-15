@@ -3,7 +3,8 @@ export const menu = [
     key: 'en',
     topics: [
       {
-        key: 'words'
+        key: 'words',
+        showForSameLang: false
       }
     ]
   },
@@ -12,6 +13,7 @@ export const menu = [
     topics: [
       {
         key: 'katakana',
+        showForSameLang: true,
         levels: [
           {
             key: 'easy'
@@ -20,6 +22,7 @@ export const menu = [
       },
       {
         key: 'hiragana',
+        showForSameLang: true,
         levels: [
           {
             key: 'easy'
@@ -27,7 +30,8 @@ export const menu = [
         ]
       },
       {
-        key: 'words'
+        key: 'words',
+        showForSameLang: false
       }
     ]
   }

@@ -40,6 +40,11 @@
     },
     "study": {
       "type": "json"
+    },
+    "selected_lang": {
+      "default": "en",
+      "required": true,
+      "type": "string"
     }
   }
 }

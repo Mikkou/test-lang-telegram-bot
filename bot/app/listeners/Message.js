@@ -10,7 +10,7 @@ export default class Message extends Base {
     const { from: { id: telegramUserID }, text } = ctx.update.message
     const isCommand = text.indexOf('/') === 0
     if (isCommand) return
-    const { study: { lang, topic, element_hash } } = await UserModel.findOne({ user_id: telegramUserID })
+    const { study: { lang, topic, element_hash }, selected_lang } = await UserModel.findOne({ user_id: telegramUserID })
     if (element_hash) {
       const obj = new WordsTopic(lang)
 
@@ -19,7 +19,7 @@ export default class Message extends Base {
           const { en } = await WordModel.findById(element_hash)
           if (en === text.toLowerCase()) {
             await ctx.reply('✌')
-            await obj.sendNewWord(telegramUserID, ctx)
+            await obj.sendNewWord(telegramUserID, selected_lang, ctx)
           } else {
             ctx.reply('❌')
           }
@@ -32,7 +32,7 @@ export default class Message extends Base {
               const { jp_hiragana, jp_katakana, jp_kanji } = await WordModel.findById(element_hash)
               if (jp_hiragana === text || jp_katakana === text || jp_kanji === text) {
                 await ctx.reply('✌')
-                await obj.sendNewWord(telegramUserID, ctx)
+                await obj.sendNewWord(telegramUserID, selected_lang, ctx)
               } else {
                 ctx.reply('❌')
               }
